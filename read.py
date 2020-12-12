@@ -103,4 +103,4 @@ result = save_to_db(elements=db_elements)
 if result:
     print("Successfully inserted records to mongoDB")
 else:
-    print("Error while working with local mongoDB")
+    print("Error while working with localhost mongoDB")
