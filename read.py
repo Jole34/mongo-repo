@@ -33,7 +33,7 @@ def create_objects(csv_file: str, **kwargs) -> Optional[list]:
     participants_row = OrderedDict()
     location_row = OrderedDict()
     gps_row = OrderedDict()
-
+    
     try:
         # Create dict
         for row in reader:
@@ -92,9 +92,7 @@ def save_to_db(elements: Optional[list], **kwargs) -> bool:
     client = MongoClient("localhost", 27017)
     db = client["aremeniaDB"]
     elements_collection = db["ArmeniaConflicts"]
-
-    for e in db_elements:
-        elements_collection.insert_one(e)    
+    elements_collection.insert_many(elements)
     return True
 
 db_elements = create_objects(csv_file='conflict_data_arm.csv')
