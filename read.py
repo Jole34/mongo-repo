@@ -23,11 +23,12 @@ def create_objects(csv_file: str, **kwargs) -> Optional[list]:
     ,"notes", "timestamp","iso3")
 
     reader = csv.DictReader(csvfile, fieldnames)
+    # Skip name of columns and descrption
     iter_rows = iter(reader)
     next(iter_rows)
     next(iter_rows)
 
-    # Nested elements
+    # Dicts for nested elements
     date_row = OrderedDict()
     event_row = OrderedDict()
     participants_row = OrderedDict()
@@ -96,10 +97,10 @@ def save_to_db(elements: Optional[list], **kwargs) -> bool:
         elements_collection.insert_many(elements)
     except ConnectionFailure:
         return False
-        
+
     return True
 
-db_elements = create_objects(csv_file='conflict_data_arm.csv')
+db_elements = create_objects(csv_file='./files/conflict_data_arm.csv')
 result = save_to_db(elements=db_elements)
 
 if result:
