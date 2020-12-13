@@ -5,4 +5,3 @@ Python scripts for inserting objects from csv file to mongoDB without making JSO
 ### Using
 
 * read.py [used for inserting]
-* settings.py [additional settings for using]
