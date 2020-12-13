@@ -49,7 +49,14 @@ def create_objects(csv_file: str, **kwargs) -> Optional[list]:
             for field in fieldnames:
                 element_field = row[field]
                 # Date nested
+                if not element_field.strip() and not element_field:
+                    element_field = "Empty"
+                if field == "data_id":
+                    element_field = int(element_field)
+                    entry[field] = element_field
                 if field == "event_date" or field == "year" or field == "timestamp":
+                    if field !=  "event_date":
+                        element_field = int(element_field)
                     date_row.update({field : element_field })
                     entry["date"] = date_row
                 # Event nested
@@ -57,6 +64,8 @@ def create_objects(csv_file: str, **kwargs) -> Optional[list]:
                     element_field = element_field.split('/')
                     if len(element_field) == 1:
                         element_field = element_field[0]
+                    if field == "event_id_no_cnty":
+                        element_field = float(element_field)
                     event_row.update({field : element_field })
                     entry["events"] = event_row
                 # Participants nested
@@ -72,6 +81,8 @@ def create_objects(csv_file: str, **kwargs) -> Optional[list]:
                     entry["country_locations"] = location_row
                 # Gps nested
                 elif field == "location" or field == "latitude" or field == "longitude" or field == "geo_precision":
+                    if field != "location":
+                        element_field = float(element_field)
                     gps_row.update({field: element_field})
                     entry["gps"] = gps_row
                 # Source split
@@ -80,6 +91,9 @@ def create_objects(csv_file: str, **kwargs) -> Optional[list]:
                     if len(element_field) == 1:
                         element_field = element_field[0]
                     entry[field] = element_field
+                elif field == "inter1" or field == "inter2" or field == "interaction" or field == "time_precision":
+                    element_field = int(element_field)
+                    entry[field] = element_field                    
                 else:
                     entry[field] = element_field
             entries.append(entry)
