@@ -1,5 +1,6 @@
 import csv
 import json
+from datetime import datetime
 from typing import Optional
 from collections import OrderedDict
 from pymongo import MongoClient
@@ -57,6 +58,8 @@ def create_objects(csv_file: str, **kwargs) -> Optional[list]:
                 if field == "event_date" or field == "year" or field == "timestamp":
                     if field !=  "event_date":
                         element_field = int(element_field)
+                    if field == "timestamp":
+                        element_field = datetime.fromtimestamp(element_field).isoformat()
                     date_row.update({field : element_field })
                     entry["date"] = date_row
                 # Event nested
