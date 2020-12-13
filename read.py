@@ -89,10 +89,14 @@ def create_objects(csv_file: str, **kwargs) -> Optional[list]:
 def save_to_db(elements: Optional[list], **kwargs) -> bool:
     if not elements:
         return False
-    client = MongoClient("localhost", 27017)
-    db = client["aremeniaDB"]
-    elements_collection = db["ArmeniaConflicts"]
-    elements_collection.insert_many(elements)
+    try:
+        client = MongoClient("localhost", 27017)
+        db = client["aremeniaDB"]
+        elements_collection = db["ArmeniaConflicts"]
+        elements_collection.insert_many(elements)
+    except ConnectionFailure:
+        return False
+        
     return True
 
 db_elements = create_objects(csv_file='conflict_data_arm.csv')
