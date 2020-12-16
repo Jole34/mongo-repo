@@ -59,7 +59,7 @@ def create_objects(csv_file: str, **kwargs) -> Optional[list]:
                     if field !=  "event_date":
                         element_field = int(element_field)
                     if field == "timestamp":
-                        element_field = datetime.fromtimestamp(element_field).isoformat()
+                        element_field = datetime.utcfromtimestamp(element_field)
                     date_row.update({field : element_field })
                     entry["date"] = date_row
                 # Event nested
